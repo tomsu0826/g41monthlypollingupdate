@@ -18,31 +18,87 @@ library(scales)
 ```
 
 ```{r datasim,echo = FALSE, include=FALSE}
-#to make the whole procedure reproducible, set seed
+# To make the whole procedure reproducible, set seed
 set.seed(41)
 
-# assume that we have an extremely low non-response rate of 1%, calculate the number of total responses
+# Assume that we have an extremely low non-response rate of 1%, calculate the 
+# number of total responses
 sample_size <- 200
 non_response_rate <- 0.01
 responded_size <- sample_size * (1 - non_response_rate)
 
-# simulate the data
+# Simulate the data
 simulated_data <- tibble(
-  # 
-  eligibility = sample(c("Yes", "No"), size = responded_size, replace = TRUE, prob = c(0.98, 0.02)),
-  voted_for = sample(c("Liberal", "Conservative", "New Democratic", "Green", "People's Party", "Libertarian", "Did not vote/Perfer not to say"), size = responded_size, replace = TRUE, prob = c(0.429, 0.256, 0.211, 0.084, 0.017, 0.0003, 0.0027)),
-  top_issue = sample(c("Economy", "Public Health", "Environmental Issues", "LGBTQ", "Affordable Housing"), size = responded_size, replace = TRUE, prob = c(0.3, 0.5, 0.05,0.1, 0.05)),
-  familiarity = sample(c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All"), size = responded_size, replace = TRUE, prob = c(0.1, 0.3, 0.15, 0.45)),
-  more_info = sample(c("Yes", "No"), size = responded_size, replace = TRUE, prob = c(0.1, 0.9)),
-  likely = sample(c("Very Likely", "Likely", "No Opinion", "Somewhat Likely", "Not Likely At All"), size = responded_size, replace = TRUE, prob = c(0.01, 0.2, 0.4, 0.1, 0.29 ))
+  eligibility = sample(c("Yes", "No"), 
+                       size = responded_size, 
+                       replace = TRUE, 
+                       prob = c(0.98, 0.02)),
+  voted_for = sample(c("Liberal", "Conservative", "New Democratic", "Green", 
+                       "People's Party", "Libertarian", 
+                       "Did not vote/Perfer not to say"), 
+                     size = responded_size, 
+                     replace = TRUE, 
+                     prob = c(0.429, 0.256, 0.211, 0.084,
+                              0.017, 0.0003, 0.0027)),
+  top_issue = sample(c("Economy", "Public Health", "Environmental Issues", 
+                       "LGBTQ", "Affordable Housing"), 
+                     size = responded_size, 
+                     replace = TRUE, 
+                     prob = c(0.3, 0.5, 0.05,0.1, 0.05)),
+  familiarity = sample(c("Very Familiar", "Familiar", "Somewhat Familiar", 
+                         "Not Familiar At All"), 
+                       size = responded_size, 
+                       replace = TRUE, 
+                       prob = c(0.1, 0.3, 0.15, 0.45)),
+  more_info = sample(c("Yes", "No"), 
+                     size = responded_size, 
+                     replace = TRUE, 
+                     prob = c(0.1, 0.9)),
+  likely = sample(c("Very Likely", "Likely", "No Opinion", "Somewhat Likely", 
+                    "Not Likely At All"), 
+                  size = responded_size, 
+                  replace = TRUE, 
+                  prob = c(0.01, 0.2, 0.4, 0.1, 0.29 ))
                       
 )
-
 ```
 
 # Executive Summary
-
+In this paper.
 
 # Introduction
+    Since its foundation in 1983, the Green Party of Canada has been focusing on applying principles of environmental sustainability and social justice into the reformation of democracy, and has been gaining increasing public support in the past several years as environmental issues become one of the main concerns for both the global and Canadian societies. As junior statisticians at Petit Poll, a Canadian polling company, we work with the Green Party to provide monthly estimates of public satisfaction and support rates of the Party at local communities to provide insights for future campaign promotion as well as policy formulation, and we do this through administering and analyzing surveys. In this report, we will show and interpret results from the most recent polling survey of voters in the Thunder Bay-Superior North riding in Ontario, as well as share some important implications from the results. A link to all the codes used for this report can be found at https://github.com/tomsu0826/sta304ps2polling
 
 # Survey Methodology
+## The Sampling Method
+    To address the client's needs under the pressure of budget restraints, we design the monthly survey as concise and straightforward as possible. The survey population is all qualified voters living in Thunder Bay-Superior North when we conduct the survey. The results would be more representative if we could sample randomly from all voters. Two constraints prevent us from doing so. First of all, we do not have access to a full list of all qualified voters living in the riding. The best we have is Election Canada's 2019 federal election voters' list. We think that the database is sufficient since people who do not actively participate in politics will be unlikely to change their attitudes sharply. The list will leave out voters who just moved into the riding or became eligible after the election. However, given that the election was only a year ago, this fraction of people should be minimum. So the sample frame of the survey is the 2019 voters' list. It contains all Canadian citizens living in Thunder Bay-Superior North, who voted in the 2019 federal election. The second constraint is the tight budget. It is not feasible for us to conduct a census. The 2019 voters' list registers 43,177 entries. It is possible to sample using a simple random design. However, some neighbourhoods with fewer residents can have zero samples from there. It could potentially harm the quality of the survey. We decided to stratify the riding by neighbourhoods, and then take simple random samples from each stratum. The neighbourhood's definition is vague, especially in Thunder Bay-Superior North, since the communities are dispersed. In this survey, a neighbourhood is defined as a region that has 2,150 registered voters in it. We plot all the voters on a gridded map and then divide the riding into 20 such neighbourhoods. We randomly sample ten voters within each neighbourhood. We use Google forms to deliver the survey. The digital format makes data analysis more efficient. Five groups of surveyors will work simultaneously in the field with at least two people in each group. Each group will be responsible for four neighbourhoods. At least one person in the group will need to drive. Surveyors are supposed to finish the fieldwork within one day (six working hours). The cost of each surveyor per day is 6 x $15 = $90. We decided to involve volunteers in the data collection process. Ideally, volunteers will consist of 90% of the total workforce. Surveyors are supposed to bring their own electronic devices to access the form and record the survey data. The estimated total costs will be less than $200. 
+
+## The Survey Questions
+    The survey contains six questions starting from a mandatory one asking for the eligibility of voting. We also want to figure out the relationship between voters' choices and their top concern issues. It may provide some insights for deciding the focus of the party's future policies. Above all, we want to know if the Green party can count on voters' support in a future election. So we include the question in the survey. At any point, if the respondent feels uncomfortable answering survey questions, they are free to quit. 
+
+## Statistical Properties
+    Since all of the survey questions are multiple-choice, we will not be able to calculate the means. We assume that the sample provides an appropriate representation of the population. The regional imbalance within the riding will be taken care of by the stratification. The probability of a unit being sampled is 200/43,177 before and after the stratification.
+
+## Non-response
+    The questions are carefully designed, and the survey has been made as accessible as possible to minimize non-response. If the non-response rate is less than 5% of the sample size, we simply drop the non-responses. If it is larger than 5%, we will consider methods for imputation of missing data. Several R packages offer imputation functions. We choose "Hmisc" to deal with these issues if the scenario happens.
+
+# Results
+
+
+# Discussion 
+
+## Survey
+
+## Results
+
+## Weakness and areas for future
+
+
+# Appendix
+
+## Survey
+
+Add a link to the survey and screen shots of the questions.
+
+
+# References
