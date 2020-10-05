@@ -8,6 +8,41 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(tibble)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+library(plyr)
+library(data.table)
+library(scales)
 ```
+
+```{r datasim,echo = FALSE, include=FALSE}
+#to make the whole procedure reproducible, set seed
+set.seed(41)
+
+# assume that we have an extremely low non-response rate of 1%, calculate the number of total responses
+sample_size <- 200
+non_response_rate <- 0.01
+responded_size <- sample_size * (1 - non_response_rate)
+
+# simulate the data
+simulated_data <- tibble(
+  # 
+  eligibility = sample(c("Yes", "No"), size = responded_size, replace = TRUE, prob = c(0.98, 0.02)),
+  voted_for = sample(c("Liberal", "Conservative", "New Democratic", "Green", "People's Party", "Libertarian", "Did not vote/Perfer not to say"), size = responded_size, replace = TRUE, prob = c(0.429, 0.256, 0.211, 0.084, 0.017, 0.0003, 0.0027)),
+  top_issue = sample(c("Economy", "Public Health", "Environmental Issues", "LGBTQ", "Affordable Housing"), size = responded_size, replace = TRUE, prob = c(0.3, 0.5, 0.05,0.1, 0.05)),
+  familiarity = sample(c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All"), size = responded_size, replace = TRUE, prob = c(0.1, 0.3, 0.15, 0.45)),
+  more_info = sample(c("Yes", "No"), size = responded_size, replace = TRUE, prob = c(0.1, 0.9)),
+  likely = sample(c("Very Likely", "Likely", "No Opinion", "Somewhat Likely", "Not Likely At All"), size = responded_size, replace = TRUE, prob = c(0.01, 0.2, 0.4, 0.1, 0.29 ))
+                      
+)
+
+```
+
+# Executive Summary
+
+
 # Introduction
-testds
+
+# Survey Methodology
