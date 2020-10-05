@@ -1,2 +1,4 @@
 # sta304ps2polling
-Initial commit from RS 10/5
+GitHub for STA304 Problem Set 2
+File named 'final_report' contains all the code, simulated data, and the main
+body of the report.
