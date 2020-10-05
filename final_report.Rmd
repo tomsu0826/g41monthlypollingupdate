@@ -83,7 +83,7 @@ In this paper.
     The questions are carefully designed, and the survey has been made as accessible as possible to minimize non-response. If the non-response rate is less than 5% of the sample size, we simply drop the non-responses. If it is larger than 5%, we will consider methods for imputation of missing data. Several R packages offer imputation functions. We choose "Hmisc" to deal with these issues if the scenario happens.
 
 # Results
-
+  
 
 # Discussion 
 
@@ -102,3 +102,10 @@ Add a link to the survey and screen shots of the questions.
 
 
 # References
+- R Core Team (2020). R: A language and environment for statistical computing. R Foundation for
+  Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+- Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686,
+  https://doi.org/10.21105/joss.01686
+- Frank E Harrell Jr, with contributions from Charles Dupont and many others.
+  (2020). Hmisc: Harrell Miscellaneous. R package version 4.4-1.
+  https://CRAN.R-project.org/package=Hmisc
