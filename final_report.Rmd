@@ -147,7 +147,7 @@ nset3 <- setDT(simulated_data)[,list(count = .N), by = .(familiarity,likely)][,l
 ```
 
 familiarity vs. likely to vote
-```{r, echo = FALSE, fig.show="hold", out.width="50%"}
+```{r, echo = TRUE, fig.show="hold", out.width="50%"}
 nset3%>%
   ggplot(aes(x = factor(familiarity, levels = c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All")), y =count, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
   geom_bar(position = "dodge", stat = "identity")+
@@ -241,12 +241,14 @@ nset5%>%
 
 # 7. Appendix
 
-## Survey
+## 7.1 Link to the Survey
+Google Forms: https://forms.gle/vxrDxVpgPLrs8ZqMA
 
-Add a link to the survey and screen shots of the questions.
+## 7.2 Screenshot of the Survey
 
 
-# References
+
+# 8. References
 1. R Core Team (2020). R: A language and environment for statistical computing. R Foundation for
    Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
    
