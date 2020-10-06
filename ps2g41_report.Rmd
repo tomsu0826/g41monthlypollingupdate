@@ -147,7 +147,7 @@ nset3 <- setDT(simulated_data)[,list(count = .N), by = .(familiarity,likely)][,l
 ```
 
 familiarity vs. likely to vote
-```{r, echo = TRUE, fig.show="hold", out.width="50%"}
+```{r, echo = FALSE, fig.show="hold", out.width="50%"}
 nset3%>%
   ggplot(aes(x = factor(familiarity, levels = c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All")), y =count, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
   geom_bar(position = "dodge", stat = "identity")+
