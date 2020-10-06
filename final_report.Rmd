@@ -92,6 +92,7 @@ In this paper.
 ## Results
 
 ## Weakness and areas for future
+    As mentioned before, the survey sample is obtained by randomly sampling 200 voters living in the neighborhoods of Thunder Bay-Superior North riding. More information and insights will definitely be gained if we could sample more voters in the area, or to include more ridings in our survey. It is especially meaningful given that the Thunder Bay-Superior North riding was the hometown of a deputy leader of the Green Party, Bruce Hyer, making it possible that people in that riding knows and supports the Party significantly more than people in other ridings. Future surveys could enlarge the survey sample size by gaining access to Election Canada's 2019 federal election voters' list through the help of the Federal Government, as well as by administering the survey online instead of in person for a greater spread and a larger number of responses. Small prizes for respondents or a draw for prizes could be included to encourage participation as well. What’s more, since a tendency of losing current voters is observed in our data, future surveys could look specifically at current voters of the Party and to find out what they are unsatisfied about, in order to better assist with future campaigns and policy-making. 
 
 
 # Appendix
