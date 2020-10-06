@@ -15,6 +15,8 @@ library(dplyr)
 library(plyr)
 library(data.table)
 library(scales)
+library(png)
+library(knitr)
 ```
 
 ```{r datasim,echo = FALSE, include=FALSE}
@@ -64,14 +66,19 @@ simulated_data <- tibble(
 ```
 
 # 1. Executive Summary
-In this paper.
+    Petit Poll has been contracted by the Green Party of Canada (‘the Party’) to provide monthly polling updates via a survey given to residents in the Thunder Bay-Superior North area. The goal is to get a better understanding of the people about their opinion with regards to the Party and how likely they are to vote for the Party in future elections. We find that...Our findings have implications...
 
 # 2. Introduction
-    Since its foundation in 1983, the Green Party of Canada has been focusing on applying principles of environmental sustainability and social justice into the reformation of democracy, and has been gaining increasing public support in the past several years as environmental issues become one of the main concerns for both the global and Canadian societies. As junior statisticians at Petit Poll, a Canadian polling company, we work with the Green Party to provide monthly estimates of public satisfaction and support rates of the Party at local communities to provide insights for future campaign promotion as well as policy formulation, and we do this through administering and analyzing surveys. In this report, we will show and interpret results from the most recent polling survey of voters in the Thunder Bay-Superior North riding in Ontario, as well as share some important implications from the results. A link to all the codes used for this report can be found at https://github.com/tomsu0826/sta304ps2polling
+    Since its foundation in 1983, the Green Party of Canada has been focusing on applying principles of environmental sustainability and social justice into the reformation of democracy, and has been gaining increasing public support in the past several years as environmental issues become one of the main concerns for both the global and Canadian societies. As junior statisticians at Petit Poll, a Canadian polling company, we work with the Green Party to provide monthly estimates of public satisfaction and support rates of the Party at local communities to provide insights for future campaign promotion as well as policy formulation, and we do this through administering and analyzing surveys. In this report, we will show and interpret results from the most recent polling survey of voters in the Thunder Bay-Superior North riding in Ontario, as well as share some important implications from the results. A link to all the codes used for this report can be found at https://github.com/tomsu0826/g41monthlypollingupdate
 
 # 3. Survey Methodology
 ## 3.1 The Sampling Method
-    To address the client's needs under the pressure of budget restraints, we design the monthly survey as concise and straightforward as possible. The survey population is all qualified voters living in Thunder Bay-Superior North when we conduct the survey. The results would be more representative if we could sample randomly from all voters. Two constraints prevent us from doing so. First of all, we do not have access to a full list of all qualified voters living in the riding. The best we have is Election Canada's 2019 federal election voters' list. We think that the database is sufficient since people who do not actively participate in politics will be unlikely to change their attitudes sharply. The list will leave out voters who just moved into the riding or became eligible after the election. However, given that the election was only a year ago, this fraction of people should be minimum. So the sample frame of the survey is the 2019 voters' list. It contains all Canadian citizens living in Thunder Bay-Superior North, who voted in the 2019 federal election. The second constraint is the tight budget. It is not feasible for us to conduct a census. The 2019 voters' list registers 43,177 entries. It is possible to sample using a simple random design. However, some neighbourhoods with fewer residents can have zero samples from there. It could potentially harm the quality of the survey. We decided to stratify the riding by neighbourhoods, and then take simple random samples from each stratum. The neighbourhood's definition is vague, especially in Thunder Bay-Superior North, since the communities are dispersed. In this survey, a neighbourhood is defined as a region that has 2,150 registered voters in it. We plot all the voters on a gridded map and then divide the riding into 20 such neighbourhoods. We randomly sample ten voters within each neighbourhood. We use Google forms to deliver the survey. The digital format makes data analysis more efficient. Five groups of surveyors will work simultaneously in the field with at least two people in each group. Each group will be responsible for four neighbourhoods. At least one person in the group will need to drive. Surveyors are supposed to finish the fieldwork within one day (six working hours). The cost of each surveyor per day is 6 x $15 = $90. We decided to involve volunteers in the data collection process. Ideally, volunteers will consist of 90% of the total workforce. Surveyors are supposed to bring their own electronic devices to access the form and record the survey data. The estimated total costs will be less than $200. 
+    To address the client's needs under the pressure of budget restraints, we design the monthly survey as concise and straightforward as possible. The survey population is all qualified voters living in Thunder Bay-Superior North when we conduct the survey. The results would be more representative if we could sample randomly from all voters. Two constraints prevent us from doing so. First of all, we do not have access to a full list of all qualified voters living in the riding. The best we have is Election Canada's 2019 federal election voters' list. We think that the database is sufficient since people who do not actively participate in politics will be unlikely to change their attitudes sharply. The list will leave out voters who just moved into the riding or became eligible after the election. However, given that the election was only a year ago, this fraction of people should be minimum. So the sample frame of the survey is the 2019 voters' list. It contains all Canadian citizens living in Thunder Bay-Superior North, who voted in the 2019 federal election.
+
+    The second constraint is the tight budget. It is not feasible for us to conduct a census. The 2019 voters' list registers 43,177 entries. It is possible to sample using a simple random design. However, some neighbourhoods with fewer residents can have zero samples from there. It could potentially harm the quality of the survey. We decided to stratify the riding by neighbourhoods, and then take simple random samples from each stratum. The neighbourhood's definition is vague, especially in Thunder Bay-Superior North, since the communities are dispersed. In this survey, a neighbourhood is defined as a region that has 2,150 registered voters in it. We plot all the voters on a gridded map and then divide the riding into 20 such neighbourhoods. We randomly sample ten voters within each neighbourhood. We use Google forms to deliver the survey. The digital format makes data analysis more efficient. Five groups of surveyors will work simultaneously in the field with at least two people in each group. Each group will be responsible for four neighbourhoods. At least one person in the group will need to drive. Surveyors are supposed to finish the fieldwork within one day (six working hours). The cost of each surveyor per day is 6 x $15 = $90. We decided to involve volunteers in the data collection process. Ideally, volunteers will consist of 90% of the total workforce. Surveyors are supposed to bring their own electronic devices to access the form and record the survey data. The estimated total costs will be less than $200. 
+
+    In order to protect the privacy of our respondent, no personal information would be included in the publication dataset. Along with that, every participant of the project signed the privacy contract on not leaking our respondent’s private information and using it anywhere else than our project.
+
 
 ## 3.2 The Survey Questions
     The survey contains six questions starting from a mandatory one asking for the eligibility of voting. We also want to figure out the relationship between voters' choices and their top concern issues. It may provide some insights for deciding the focus of the party's future policies. Above all, we want to know if the Green party can count on voters' support in a future election. So we include the question in the survey. At any point, if the respondent feels uncomfortable answering survey questions, they are free to quit. 
@@ -80,7 +87,10 @@ In this paper.
     Since all of the survey questions are multiple-choice, we will not be able to calculate the means. We assume that the sample provides an appropriate representation of the population. The regional imbalance within the riding will be taken care of by the stratification. The probability of a unit being sampled is 200/43,177 before and after the stratification.
 
 ## 3.4 Non-response
-    The questions are carefully designed, and the survey has been made as accessible as possible to minimize non-response. If the non-response rate is less than 5% of the sample size, we simply drop the non-responses. If it is larger than 5%, we will consider methods for imputation of missing data. Several R packages offer imputation functions. We choose "Hmisc" to deal with these issues if the scenario happens.
+    The questions are carefully designed, and the survey has been made as accessible as possible to minimize non-response. To improve response rate, we also give flower seeds and coupons on environmentally friendly products to respondents who completed all questions of the survey. The cost of the gifts for completing all questions should be contained within $100, the seeds and coupons were directly from vendors in association with the green party. 
+
+    If the non-response rate is less than 5% of the sample size, we simply drop the non-responses. If it is larger than 5%, we will consider methods for imputation of missing data. Several R packages offer imputation functions. We choose "Hmisc" to deal with these issues if the scenario happens.  
+
 
 # 4. Results
 This dataset is The percentage of likelihood grouped by party they voted for. (which I used for graph below)
@@ -232,6 +242,7 @@ nset5%>%
 
 ## 5.1 Survey
     The first set of graphs (Fig. 1 and Fig. 2) exhibits which party the participants voted for, as well as their likelihood to vote particularly for the Green Party in the future. From the graph, although only a small fraction of people voted for the Green Party in the past (19/198=9.5%), a significant number of people who voted for the other parties are not happy with their choices and indicate that they are to vote for the Green Party instead. Specifically, 33.88% of past voters for the Liberal Party, 20.76% of the Conservative Party, 36.37% of the New Democratic Party, and 50% of the People’s Party indicate that they are at least somehow likely to vote for the Green Party in the future. Within past voters for the Liberal and New Democratic Parties, 1.28% and 2.27%, respectively, even indicate that they are in fact very likely to vote for the Green Party. This demonstrates that the Green Party has been successful in demonstrating its trustworthiness and attracting new voters.  However, when we look at the statistics of people who have voted for the Green Party in the past, it is apparent that the Green Party did not do a good job in keeping its current voters, as more than half of current voters indicate that they are unsure if they will keep voting for the Green Party in the future. Hence, instead of promoting its policies to new people in future campaigns, the Green Party should focus more on improving old policies and executing past promises in order to keep current voters.  
+
     The second set of graphs (Fig. 3 and Fig. 4) yet again confirms that the Green Party should put more emphasis on keeping its current voters instead of attracting new voters, as only 7.5% (15.198) of participants indicate that they would like to learn more about the Green Party’s policies. Among the majority of people who said no to learning more about the Green Party, 32.79% of them indicate at least a slight interest in voting for the Green Party, much greater than that of people who said yes (20%). This reflects that the Party has been successful in communicating its policies, so more resources should be directed to maintaining that communicative effort in the future and keeping the interest of current voters. 
 
 
@@ -245,7 +256,11 @@ nset5%>%
 Google Forms: https://forms.gle/vxrDxVpgPLrs8ZqMA
 
 ## 7.2 Screenshot of the Survey
-
+```{r, echo=FALSE}
+img1_path <- "img/survey_v2.png"
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+include_graphics(img1_path)
+```
 
 
 # 8. References
@@ -278,3 +293,17 @@ Google Forms: https://forms.gle/vxrDxVpgPLrs8ZqMA
   
   Hadley Wickham and Dana Seidel (2020). scales: Scale Functions for Visualization. R package version
   1.1.1. https://CRAN.R-project.org/package=scales
+ 
+  Simon Urbanek (2013). png: Read and write PNG images. R package version 0.1-7.
+  https://CRAN.R-project.org/package=png
+  
+  Yihui Xie (2020). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package
+  version 1.30.
+
+  Yihui Xie (2015) Dynamic Documents with R and knitr. 2nd edition. Chapman and Hall/CRC. ISBN
+  978-1498716963
+
+  Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden,
+  Friedrich Leisch and Roger D. Peng, editors, Implementing Reproducible Computational Research.
+  Chapman and Hall/CRC. ISBN 978-1466561595
+
