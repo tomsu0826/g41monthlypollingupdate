@@ -112,7 +112,14 @@ nset%>%
   ylab(label = "Count")
 
 nset%>%
-  ggplot(aes(x = factor(voted_for, levels = c("Liberal", "Conservative", "New Democratic", "Green", "People's Party", "Libertarian", "Did not vote/Perfer not to say")), y = percent_num, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = factor(voted_for, levels =
+                          c("Liberal", "Conservative", "New Democratic", 
+                            "Green", "People's Party", "Libertarian", 
+                            "Did not vote/Perfer not to say")), 
+             y = percent_num, fill = factor(likely, levels = 
+                                              c("Very Likely", "Likely",
+                                                "Somewhat Likely","No Opinion",
+                                                "Not Likely At All"))))+
   geom_bar(position = position_fill(reverse=FALSE), stat = "identity")+
   geom_text(aes(label = percent_fmt),position = position_stack(vjust = 0.5), )+
   scale_fill_discrete(name = "Liklihood to vote for green party")+
