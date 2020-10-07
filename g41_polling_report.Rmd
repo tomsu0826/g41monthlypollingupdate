@@ -1,8 +1,9 @@
 ---
-title: "Monthly Polling Updates: Green Party in Thunder Bay—Superior North"
+title: 'Monthly Polling Updates: Green Party in Thunder Bay—Superior North: A Sign of Losing Voters'
 author: "Joanne Sun, Yi Su, Leqi Sun, Tzu-Ang Su"
 date: "October 7, 2020"
-output: pdf_document
+output:
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -20,11 +21,11 @@ library(knitr)
 ```
 
 ```{r datasim,echo = FALSE, include=FALSE}
-# To make the whole procedure reproducible, set seed
+# To make the whole procedure reproducible, set seed.
 set.seed(41)
 
 # Assume that we have an extremely low non-response rate of 1%, calculate the 
-# number of total responses
+# number of total responses.
 sample_size <- 200
 non_response_rate <- 0.01
 responded_size <- sample_size * (1 - non_response_rate)
@@ -39,14 +40,16 @@ simulated_data <- tibble(
                        "People's Party", "Libertarian", 
                        "Did not vote/Perfer not to say"), 
                      size = responded_size, 
-                     replace = TRUE, 
+                     replace = TRUE,
+                     # Probabilities based on 2019's election results.
+                     # Retrieved from Elections Canada, see reference section.
                      prob = c(0.429, 0.256, 0.211, 0.084,
                               0.017, 0.0003, 0.0027)),
   top_issue = sample(c("Economy", "Public Health", "Environmental Issues", 
                        "LGBTQ", "Affordable Housing"), 
                      size = responded_size, 
                      replace = TRUE, 
-                     prob = c(0.3, 0.5, 0.05,0.1, 0.05)),
+                     prob = c(0.3, 0.5, 0.05, 0.1, 0.05)),
   familiarity = sample(c("Very Familiar", "Familiar", "Somewhat Familiar", 
                          "Not Familiar At All"), 
                        size = responded_size, 
@@ -66,49 +69,62 @@ simulated_data <- tibble(
 ```
 
 # 1. Executive Summary
-    Petit Poll has been contracted by the Green Party of Canada (‘the Party’) to provide monthly polling updates via a survey given to residents in the Thunder Bay-Superior North area. The goal is to get a better understanding of the people about their opinion with regards to the Party and how likely they are to vote for the Party in future elections. We find that...Our findings have implications...
+    Petit Poll has been contracted by the Green Party of Canada (‘the Party’) to provide monthly polling updates via a survey given to residents in the Thunder Bay-Superior North area. The goal is to get a better understanding of the people about their opinion with regards to the Party and how likely they are to vote for the Party in future elections. We find that the Party’s voters want to vote for other parties, while the voters who voted for other parties generally want to for the Green Party in future elections. Our findings have implications that should serve as a warning for the Party to put more emphasis on keeping its current voters while improving the current policies.
 
 # 2. Introduction
-    Since its foundation in 1983, the Green Party of Canada has been focusing on applying principles of environmental sustainability and social justice into the reformation of democracy, and has been gaining increasing public support in the past several years as environmental issues become one of the main concerns for both the global and Canadian societies. As junior statisticians at Petit Poll, a Canadian polling company, we work with the Green Party to provide monthly estimates of public satisfaction and support rates of the Party at local communities to provide insights for future campaign promotion as well as policy formulation, and we do this through administering and analyzing surveys. In this report, we will show and interpret results from the most recent polling survey of voters in the Thunder Bay-Superior North riding in Ontario, as well as share some important implications from the results. A link to all the codes used for this report can be found at https://github.com/tomsu0826/g41monthlypollingupdate
+    Since its foundation in 1983, the Green Party of Canada has been focusing on applying principles of environmental sustainability and social justice into the reformation of democracy, and has been gaining increasing public support in the past several years as environmental issues become one of the main concerns for both the global and Canadian societies. As junior statisticians at Petit Poll, a Canadian polling company, we work with the Green Party to provide monthly estimates of public satisfaction and support rates of the Party at local communities to provide insights for future campaign promotion as well as policy formulation, and we do this through administering and analyzing surveys. In this report, we will show and interpret results from the most recent polling survey of voters in the Thunder Bay-Superior North riding in Ontario, as well as share some important implications from the results. A link to all the codes used for this report can be found at: https://github.com/tomsu0826/g41monthlypollingupdate
 
 # 3. Survey Methodology
 ## 3.1 The Sampling Method
-    To address the client's needs under the pressure of budget restraints, we design the monthly survey as concise and straightforward as possible. The survey population is all qualified voters living in Thunder Bay-Superior North when we conduct the survey. The results would be more representative if we could sample randomly from all voters. Two constraints prevent us from doing so. First of all, we do not have access to a full list of all qualified voters living in the riding. The best we have is Election Canada's 2019 federal election voters' list. We think that the database is sufficient since people who do not actively participate in politics will be unlikely to change their attitudes sharply. The list will leave out voters who just moved into the riding or became eligible after the election. However, given that the election was only a year ago, this fraction of people should be minimum. So the sample frame of the survey is the 2019 voters' list. It contains all Canadian citizens living in Thunder Bay-Superior North, who voted in the 2019 federal election.
+    To address the client's needs under the pressure of budget restraints, we design the monthly survey as concise and straightforward as possible. The survey population is all qualified voters living in Thunder Bay-Superior North when we conduct the survey. The results would be more representative if we could sample randomly from all voters. Two constraints prevent us from doing so. 
 
-    The second constraint is the tight budget. It is not feasible for us to conduct a census. The 2019 voters' list registers 43,177 entries. It is possible to sample using a simple random design. However, some neighbourhoods with fewer residents can have zero samples from there. It could potentially harm the quality of the survey. We decided to stratify the riding by neighbourhoods, and then take simple random samples from each stratum. The neighbourhood's definition is vague, especially in Thunder Bay-Superior North, since the communities are dispersed. In this survey, a neighbourhood is defined as a region that has 2,150 registered voters in it. We plot all the voters on a gridded map and then divide the riding into 20 such neighbourhoods. We randomly sample ten voters within each neighbourhood. We use Google forms to deliver the survey. The digital format makes data analysis more efficient. Five groups of surveyors will work simultaneously in the field with at least two people in each group. Each group will be responsible for four neighbourhoods. At least one person in the group will need to drive. Surveyors are supposed to finish the fieldwork within one day (six working hours). The cost of each surveyor per day is 6 x $15 = $90. We decided to involve volunteers in the data collection process. Ideally, volunteers will consist of 90% of the total workforce. Surveyors are supposed to bring their own electronic devices to access the form and record the survey data. The estimated total costs will be less than $200. 
+    First of all, we do not have access to a full list of all qualified voters living in the riding. The best we have is Election Canada's 2019 federal election voters' list. We think that the database is sufficient since people who do not actively participate in politics will be unlikely to change their attitudes sharply. The list will leave out voters who just moved into the riding or became eligible after the election. However, given that the election was only a year ago, this fraction of people should be minimum. So the sample frame of the survey is the 2019 voters' list. It contains all Canadian citizens living in Thunder Bay-Superior North, who voted in the 2019 federal election.
 
-    In order to protect the privacy of our respondent, no personal information would be included in the publication dataset. Along with that, every participant of the project signed the privacy contract on not leaking our respondent’s private information and using it anywhere else than our project.
+    The second constraint is the tight budget. It is not feasible for us to conduct a census. According to the results from Elections Canada, the 2019 voters' list registers 43,177 entries. It is possible to sample using a simple random design. However, if we use simple random sampling, a conservative sample size would be at least 1067 (Wu, 2020). It is too costly for this project. Moreover, some neighbourhoods with fewer residents can have zero samples from there. It could potentially harm the quality of the survey. We decided to stratify the riding by neighbourhoods, and then take simple random samples (without replacement) from each stratum. The neighbourhood's definition is vague, especially in Thunder Bay-Superior North, since the communities are dispersed. In this survey, a neighbourhood is defined to be a single-tier municipality. The riding has 20 such municipalities. We use proportional allocation to decide the number of samples from each stratum. The total sample size is 200. We use Google forms to deliver the survey. The digital format makes data analysis more efficient. Five groups of surveyors will work simultaneously in the field with at least two people in each group. Each group will be responsible for four neighbourhoods. At least one person in the group will need to drive. Surveyors are supposed to finish the fieldwork within one day (six working hours). The cost of each surveyor per day is 6 x $15 = $90. We decided to involve volunteers in the data collection process. Ideally, volunteers will consist of 90% of the total workforce. Surveyors are supposed to bring their own electronic devices to access the form and record the survey data. The estimated total costs will be less than $200. 
 
+    In order to protect the privacy of our respondents, no personal information would be included in the public data set. Along with that, everyone working on this project signed a non-disclosure agreement to prevent the respondents’ confidential information from leaking.
 
 ## 3.2 The Survey Questions
     The survey contains six questions starting from a mandatory one asking for the eligibility of voting. We also want to figure out the relationship between voters' choices and their top concern issues. It may provide some insights for deciding the focus of the party's future policies. Above all, we want to know if the Green party can count on voters' support in a future election. So we include the question in the survey. At any point, if the respondent feels uncomfortable answering survey questions, they are free to quit. 
 
 ## 3.3 Statistical Properties
-    Since all of the survey questions are multiple-choice, we will not be able to calculate the means. We assume that the sample provides an appropriate representation of the population. The regional imbalance within the riding will be taken care of by the stratification. The probability of a unit being sampled is 200/43,177 before and after the stratification.
+    Since all of the survey questions are multiple-choice, we will not be able to calculate the means. We assume that the sample provides an appropriate representation of the population. The regional imbalance within the riding will be taken care of by the stratification. 
 
 ## 3.4 Non-response
-    The questions are carefully designed, and the survey has been made as accessible as possible to minimize non-response. To improve response rate, we also give flower seeds and coupons on environmentally friendly products to respondents who completed all questions of the survey. The cost of the gifts for completing all questions should be contained within $100, the seeds and coupons were directly from vendors in association with the green party. 
+    The questions are carefully designed, and the survey has been made as accessible as possible to minimize non-response. To improve response rate, we also give flower seeds and coupons on environmentally friendly products to respondents who completed all questions of the survey. The cost of the gifts for completing all questions should be contained within $100, the seeds and coupons were directly from vendors in association with the Green party. 
 
     If the non-response rate is less than 5% of the sample size, we simply drop the non-responses. If it is larger than 5%, we will consider methods for imputation of missing data. Several R packages offer imputation functions. We choose "Hmisc" to deal with these issues if the scenario happens.  
 
-
 # 4. Results
-This dataset is The percentage of likelihood grouped by party they voted for. (which I used for graph below)
+
 ```{r, echo = FALSE}
+# This dataset is The percentage of likelihood grouped by party they voted for.
 nset <- setDT(simulated_data)[,list(count = .N), by = .(voted_for,likely)][,list(likely  = likely, count = count, percent_fmt = paste0(formatC(count*100/sum(count), digits = 3), "%"),percent_num = count/sum(count)), by = voted_for]
 ```
 
-voted for vs. likely to vote
+## 4.1 Likelihood of participants voting for the Green Party based on which party they voted for last time.
 ```{r,echo = FALSE, fig.show="hold", out.width="50%"}
-#the out.width="50%" is what makes the two graph to show side by side
+# the out.width="50%" is what makes the two graph to show side by side
 nset%>%
-  ggplot(aes(x = factor(voted_for, levels = c("Liberal", "Conservative", "New Democratic", "Green", "People's Party", "Libertarian", "Did not vote/Perfer not to say")), y = count, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = factor(voted_for, 
+                        levels = c("Liberal", "Conservative", 
+                                   "New Democratic", "Green", 
+                                   "People's Party", "Libertarian", 
+                                   "Did not vote / Perfer not to say")), 
+             y = count, fill = factor(likely, 
+                                      levels = c("Very Likely", 
+                                                 "Likely","Somewhat Likely",
+                                                 "No Opinion", 
+                                                 "Not Likely At All"))))+
   geom_bar(position = "dodge", stat = "identity")+
-  geom_text(aes(label = count),position = position_dodge(width = 0.9),vjust=-0.25)+
+  geom_text(aes(label = count),
+            position = position_dodge(width = 0.9),
+            vjust=-0.25)+
   scale_x_discrete(guide = guide_axis(n.dodge = 3))+
-  scale_fill_discrete(name = "Likelihood to vote for green party")+
-  labs(title = "Fig.1, How likely to vote for green party given party voted for last year ")+
-  xlab(label = "Party voted for last year")+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figure 1: Likelihood to Vote for Green Party 
+       Given Party Voted for Last Year ")+
+  xlab(label = "Party Voted for Last Year")+
   ylab(label = "Count")
 
 nset%>%
@@ -122,123 +138,137 @@ nset%>%
                                                 "Not Likely At All"))))+
   geom_bar(position = position_fill(reverse=FALSE), stat = "identity")+
   geom_text(aes(label = percent_fmt),position = position_stack(vjust = 0.5), )+
-  scale_fill_discrete(name = "Liklihood to vote for green party")+
-  labs(title = "Fig.2, Standardized Ratio for Fig. 1")+
-  xlab(label = "Party voted for last year")+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figure 2: Standardized Ratio for Figure 1")+
+  xlab(label = "Party Voted for Last Year")+
   ylab(label = "Percentage")+
   coord_flip()+
   theme(legend.position="bottom", legend.justification='left')+
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))
 ```
-percent data set for more_info vs. likely to vote
+
 ```{r, echo = FALSE}
+# Percent data set for more_info vs. likely to vote
 nset2 <- setDT(simulated_data)[,list(count = .N), by = .(more_info,likely)][,list(likely  = likely, count = count, percent_fmt = paste0(formatC(count*100/sum(count), digits = 3), "%"),percent_num = count/sum(count)), by = more_info]
 ```
 
-more_info vs. likely to vote
+## 4.2 Likelihood of participants voting for the Green Party based on whether they are interested in receiving more information about the Party. 
 ```{r, echo = FALSE, fig.show="hold", out.width="50%"}
 nset2%>%
-  ggplot(aes(x = more_info, y =count, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = more_info, 
+             y =count, 
+             fill = factor(likely, 
+                           levels = c("Very Likely", 
+                                      "Likely","Somewhat Likely",
+                                      "No Opinion", "Not Likely At All"))))+
   geom_bar(position = "dodge", stat = "identity")+
-  geom_text(aes(label = count),position = position_dodge(width = 0.9),vjust=-0.25)+
-  scale_fill_discrete(name = "Likelihood to vote for green party")+
-  labs(title = "Fig.3, How likely to vote for green party given interest on green party")+
-  xlab(label = "Want to know more information about green party?")+
+  geom_text(aes(label = count),
+            position = position_dodge(width = 0.9),vjust=-0.25)+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figuire 3: Likelihood to vote for Green Party 
+       Given Interest on Green Party")+
+  xlab(label = "Want to know more about the Green Party?")+
   ylab(label = "Count")
 
 nset2%>%
-  ggplot(aes(x = more_info, y = percent_num, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = more_info,
+             y = percent_num, 
+             fill = factor(likely, 
+                           levels = c("Very Likely", 
+                                      "Likely","Somewhat Likely",
+                                      "No Opinion", "Not Likely At All"))))+
   geom_bar(position = position_fill(reverse=FALSE), stat = "identity")+
   geom_text(aes(label = percent_fmt),position = position_stack(vjust = 0.5), )+
-  scale_fill_discrete(name = "Liklihood to vote for green party")+
-  labs(title = "Fig.4, Standardized Ratio for Fig. 3")+
-  xlab(label = "Want to know more information about green party?")+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figure 4: Standardized Ratio for Figure 3")+
+  xlab(label = "Want to know more about the Green Party?")+
   ylab(label = "Percentage")+
   coord_flip()+
   theme(legend.position="bottom", legend.justification='left')+
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))
 ```
-Percent data set for familiarity vs. likely to vote
+
 ```{r, echo = FALSE}
+# Percent data set for familiarity vs. likely to vote
 nset3 <- setDT(simulated_data)[,list(count = .N), by = .(familiarity,likely)][,list(likely  = likely, count = count, percent_fmt = paste0(formatC(count*100/sum(count), digits = 3), "%"),percent_num = count/sum(count)), by = familiarity]
 ```
 
-familiarity vs. likely to vote
+## 4.3 Likelihood of participants voting for the Green Party based on how familiar they are with the Party’s policies.
 ```{r, echo = FALSE, fig.show="hold", out.width="50%"}
 nset3%>%
-  ggplot(aes(x = factor(familiarity, levels = c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All")), y =count, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = factor(familiarity, levels = c("Very Familiar", "Familiar", 
+                                                "Somewhat Familiar", 
+                                                "Not Familiar At All")),
+             y =count, fill = factor(likely, levels = c("Very Likely", 
+                                                        "Likely",
+                                                        "Somewhat Likely",
+                                                        "No Opinion", 
+                                                        "Not Likely At All"))))+
   geom_bar(position = "dodge", stat = "identity")+
-  geom_text(aes(label = count),position = position_dodge(width = 0.9),vjust=-0.25)+
-  scale_fill_discrete(name = "Likelihood to vote for green party")+
-  labs(title = "Fig.5, How likely to vote for green party given familiarity to green party")+
-  xlab(label = "Familiarity to green party")+
+  geom_text(aes(label = count),position = position_dodge(width = 0.9),
+            vjust=-0.25)+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figure 5: Likelihood to vote for Green Party Given 
+       Familiarity to Green Party")+
+  xlab(label = "Familiarity to Green party")+
   ylab(label = "Count")
 
 nset3%>%
-  ggplot(aes(x = factor(familiarity, levels = c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All")), y = percent_num, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = factor(familiarity, levels = c("Very Familiar", "Familiar",
+                                                "Somewhat Familiar", 
+                                                "Not Familiar At All")), 
+             y = percent_num, 
+             fill = factor(likely, 
+                           levels = c("Very Likely", 
+                                      "Likely","Somewhat Likely",
+                                      "No Opinion", "Not Likely At All"))))+
   geom_bar(position = position_fill(reverse=FALSE), stat = "identity")+
   geom_text(aes(label = percent_fmt),position = position_stack(vjust = 0.5), )+
-  scale_fill_discrete(name = "Liklihood to vote for green party")+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
   labs(title = "Fig.6, Standardized Ratio for Fig. 5")+
-   xlab(label = "Familiarity to green party")+
+   xlab(label = "Familiarity to Green Party")+
   ylab(label = "Percentage")+
   coord_flip()+
   theme(legend.position="bottom", legend.justification='left')+
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))
 ```
-Percent data set for familiarity vs. likely to vote
+
 ```{r, echo = FALSE}
+# Percent data set for top_issue vs. likely to vote
 nset4 <- setDT(simulated_data)[,list(count = .N), by = .(top_issue,likely)][,list(likely  = likely, count = count, percent_fmt = paste0(formatC(count*100/sum(count), digits = 3), "%"),percent_num = count/sum(count)), by = top_issue]
 ```
 
-top_issue vs. likely to vote for green
+## 4.4 Likelihood of participants voting for the Green Party based on their top societal concern.
 ```{r, echo = FALSE,fig.show="hold", out.width="50%"}
 nset4%>%
-  ggplot(aes(x = top_issue, y = count, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = top_issue, 
+             y = count, 
+             fill = factor(likely, levels = c("Very Likely", 
+                                              "Likely","Somewhat Likely",
+                                              "No Opinion", 
+                                              "Not Likely At All"))))+
   geom_bar(position = "dodge", stat = "identity")+
-  geom_text(aes(label = count),position = position_dodge(width = 0.9),vjust=-0.25)+
+  geom_text(aes(label = count),position = position_dodge(width = 0.9),
+            vjust=-0.25)+
   scale_x_discrete(guide = guide_axis(n.dodge = 3))+
-  scale_fill_discrete(name = "Liklihood to vote for green party")+
-  labs(title = "Fig.7, How likely to vote for green party given the top issue of concern")+
-  xlab(label = "Most concerned issue")+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figure 7, Likelihood to Vote for Green Party 
+       Given the Top Issue of Concern")+
+  xlab(label = "Most Concerned Issue")+
   ylab(label = "Count")
 
 nset4%>%
-  ggplot(aes(x = top_issue, y = percent_num, fill = factor(likely, levels = c("Very Likely", "Likely","Somewhat Likely","No Opinion", "Not Likely At All"))))+
+  ggplot(aes(x = top_issue, 
+             y = percent_num, 
+             fill = factor(likely, 
+                           levels = c("Very Likely", 
+                                      "Likely","Somewhat Likely",
+                                      "No Opinion", "Not Likely At All"))))+
   geom_bar(position = position_fill(reverse=FALSE), stat = "identity")+
   geom_text(aes(label = percent_fmt),position = position_stack(vjust = 0.5), )+
-  scale_fill_discrete(name = "Liklihood to vote for green party")+
-  labs(title = "Fig.8, Standardized Ratio for Fig. 7")+
-  xlab(label = "Most concerned issue")+
-  ylab(label = "Percentage")+
-  coord_flip()+
-  theme(legend.position="bottom", legend.justification='left')+
-  guides(fill = guide_legend(nrow = 3, byrow = TRUE))
-```
-percent data set for voted_for vs. familiarity
-```{r, echo = FALSE}
-nset5 <- setDT(simulated_data)[,list(count = .N), by = .(voted_for,familiarity)][,list(familiarity  = familiarity, count = count, percent_fmt = paste0(formatC(count*100/sum(count), digits = 3), "%"),percent_num = count/sum(count)), by = voted_for]
-```
-
-voted_for vs. familiarity
-```{r, echo = FALSE,fig.show="hold", out.width="50%"}
-nset5%>%
-  ggplot(aes(x = factor(voted_for, levels = c("Liberal", "Conservative", "New Democratic", "Green", "People's Party", "Libertarian", "Did not vote/Perfer not to say")), y = count, fill = factor(familiarity,levels = c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All"))))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 3))+
-  scale_fill_discrete(name = "Familiarity to green party")+
-  geom_bar(position = "dodge", stat = "identity")+
-  geom_text(aes(label = count),position = position_dodge(width = 0.9),vjust=-0.25)+
-  labs(title = "Fig.9, Familiarity to green party given party voted for last year ")+  
-  xlab(label = "Party voted for last year")+
-  ylab(label = "Count")
-
-nset5%>%
-  ggplot(aes(x = factor(voted_for, levels = c("Liberal", "Conservative", "New Democratic", "Green", "People's Party", "Libertarian", "Did not vote/Perfer not to say")), y = percent_num, fill = factor(familiarity,levels = c("Very Familiar", "Familiar", "Somewhat Familiar", "Not Familiar At All"))))+
-  geom_bar(position = position_fill(reverse=FALSE), stat = "identity")+
-  geom_text(aes(label = percent_fmt),position = position_stack(vjust = 0.5), )+
-  scale_fill_discrete(name = "Familiarity to green party")+
-  labs(title = "Fig.10, Standardized Ratio for Fig. 9")+
-  xlab(label = "Party voted for last year")+
+  scale_fill_discrete(name = "Likelihood to Vote for Green Party")+
+  labs(title = "Figure 8: Standardized Ratio for Figure 7")+
+  xlab(label = "Most Concerned Issue")+
   ylab(label = "Percentage")+
   coord_flip()+
   theme(legend.position="bottom", legend.justification='left')+
@@ -248,15 +278,18 @@ nset5%>%
 # 5. Discussion 
 
 ## 5.1 Survey
-    The first set of graphs (Fig. 1 and Fig. 2) exhibits which party the participants voted for, as well as their likelihood to vote particularly for the Green Party in the future. From the graph, although only a small fraction of people voted for the Green Party in the past (19/198=9.5%), a significant number of people who voted for the other parties are not happy with their choices and indicate that they are to vote for the Green Party instead. Specifically, 33.88% of past voters for the Liberal Party, 20.76% of the Conservative Party, 36.37% of the New Democratic Party, and 50% of the People’s Party indicate that they are at least somehow likely to vote for the Green Party in the future. Within past voters for the Liberal and New Democratic Parties, 1.28% and 2.27%, respectively, even indicate that they are in fact very likely to vote for the Green Party. This demonstrates that the Green Party has been successful in demonstrating its trustworthiness and attracting new voters.  However, when we look at the statistics of people who have voted for the Green Party in the past, it is apparent that the Green Party did not do a good job in keeping its current voters, as more than half of current voters indicate that they are unsure if they will keep voting for the Green Party in the future. Hence, instead of promoting its policies to new people in future campaigns, the Green Party should focus more on improving old policies and executing past promises in order to keep current voters.  
+    The first set of graphs (Figure 1 and Figure 2) exhibits which party the participants voted for, as well as their likelihood to vote particularly for the Green Party in the future. From the graph, although only a small fraction of people voted for the Green Party in the past (19/198=9.5%), a significant number of people who voted for the other parties are not happy with their choices and indicate that they are to vote for the Green Party instead. Specifically, 33.88% of past voters for the Liberal Party, 20.76% of the Conservative Party, 36.37% of the New Democratic Party, and 50% of the People’s Party indicate that they are at least somehow likely to vote for the Green Party in the future. Within past voters for the Liberal and New Democratic Parties, 1.28% and 2.27%, respectively, even indicate that they are in fact very likely to vote for the Green Party. This demonstrates that the Green Party has been successful in demonstrating its trustworthiness and attracting new voters. However, when we look at the statistics of people who have voted for the Green Party in the past, it is apparent that the Green Party did not do a good job in keeping its current voters, as more than half of current voters indicate that they are unsure if they will keep voting for the Green Party in the future. Hence, instead of promoting its policies to new people in future campaigns, the Green Party should focus more on improving old policies and executing past promises in order to keep current voters.
 
-    The second set of graphs (Fig. 3 and Fig. 4) yet again confirms that the Green Party should put more emphasis on keeping its current voters instead of attracting new voters, as only 7.5% (15.198) of participants indicate that they would like to learn more about the Green Party’s policies. Among the majority of people who said no to learning more about the Green Party, 32.79% of them indicate at least a slight interest in voting for the Green Party, much greater than that of people who said yes (20%). This reflects that the Party has been successful in communicating its policies, so more resources should be directed to maintaining that communicative effort in the future and keeping the interest of current voters. 
+    The second set of graphs (Fig. 3 and Fig. 4) yet again confirms that the Green Party should put more emphasis on keeping its current voters instead of attracting new voters, as only 7.5% (15 out of 198) of participants indicate that they would like to learn more about the Green Party’s policies. Among the majority of people who said no to learning more about the Green Party, 32.79% (11.5% + 20.2% + 1.09%) of them indicate at least a slight interest in voting for the Green Party, much greater than that of people who said yes (20%). This reflects that the Party has been successful in communicating its policies, so more resources should be directed to maintaining that communicative effort in the future and keeping the interest of current voters.
+
+    The third set of graphs (Figure 5 and Figure 6) exhibits the relationship between the likelihood of voting for the Green Party and familiarity with the Party’s policies, and it is a mixed picture. From Fig. 5, it is apparent that the majority of participants are not familiar with the Party’s policies (94/198 = 47.5%), but yet nearly one third of those people indicate an interest in voting for the Green Party. A theory for this phenomena could be that voters of other parties were not happy with those parties’ performance, hence simply judge the Green Party by its name and choose to indicate an interest in it out of resentment. Although this is not an ideal situation for the Green Party in terms of attracting loyal voters, it is a good opportunity for the Party to further reveal the other parties’ shortcomings to voters to even out the supportive rates. On the other hand, for people who are familiar or very familiar with the Green Party, as depicted in Figure 6, the loss of current voters is very concerning, as over 70% and 50%, respectively, indicate little to no interest voting for the Green Party in the future.
+
+    The last set of graphs (Figure 7 and Figure 8) depicts the participants’ likelihood of voting for the Green Party based on their top concern. Judging from the graph, the top concern of prospective voters for the Green Party is LGBTQ equity, indicating that the Party has done a good job in supporting and promoting LGBTQ rights through legal actions. Ironically, in people who are concerned with environmental issues, 85.7% of them indicate that they will not vote for the Green Party at all. This sends out an alerting message to the administrators of the Party that there might have been large discrepancies between what the Party believes about environmentalism and sustainability and what the voters believe. Taking the trends seen in previous graphs into account, different beliefs about solutions for environmental issues may be the main reason why the Party is losing its current voters. Hence, it is important for the Party to direct resources towards reviewing its actions and policies about environmental problems in order to gain back the voters’ trust. 
 
 
-## 6. Weakness and areas for future
-    As mentioned before, the survey sample is obtained by randomly sampling 200 voters living in the neighborhoods of Thunder Bay-Superior North riding. More information and insights will definitely be gained if we could sample more voters in the area, or to include more ridings in our survey. It is especially meaningful given that the Thunder Bay-Superior North riding was the hometown of a deputy leader of the Green Party, Bruce Hyer, making it possible that people in that riding knows and supports the Party significantly more than people in other ridings. Future surveys could enlarge the survey sample size by gaining access to Election Canada's 2019 federal election voters' list through the help of the Federal Government, as well as by administering the survey online instead of in person for a greater spread and a larger number of responses. Small prizes for respondents or a draw for prizes could be included to encourage participation as well. What’s more, since a tendency of losing current voters is observed in our data, future surveys could look specifically at current voters of the Party and to find out what they are unsatisfied about, in order to better assist with future campaigns and policy-making. 
-
-
+## 6. Weaknesses and Next Steps
+    As mentioned before, the survey sample is obtained by randomly sampling 200 voters living in the neighborhoods of Thunder Bay-Superior North riding. More information and insights will definitely be gained if we could sample more voters in the area, or to include more ridings in our survey. It is especially meaningful given that the Thunder Bay-Superior North riding was the hometown of a deputy leader of the Green Party, Bruce Hyer, making it possible that people in that riding knows and supports the Party significantly more than people in other ridings. Future surveys could enlarge the survey sample size by gaining access to Election Canada's 2019 federal election voters' list through the help of the Federal Government, as well as by administering the survey online instead of in person for a greater spread and a larger number of responses. Instead of small prizes for respondents, a draw for bigger prizes could also be included to encourage participation even more. What’s more, since a tendency of losing current voters is observed in our data, future surveys could look specifically at current voters of the Party and to find out what they are unsatisfied about, in order to better assist with future campaigns and policy-making. 
+ 
 # 7. Appendix
 
 ## 7.1 Link to the Survey
@@ -271,46 +304,50 @@ include_graphics(img1_path)
 
 
 # 8. References
-1. R Core Team (2020). R: A language and environment for statistical computing. R Foundation for
-   Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+1. Election Night Results - Electoral Districts. (2019, October 22). Retrieved October 06, 2020, 
+   from https://enr.elections.ca/ElectoralDistricts.aspx?lang=e
    
-2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686,
-   https://doi.org/10.21105/joss.01686
-   
-3. Frank E Harrell Jr, with contributions from Charles Dupont and many others.
+2. Frank E Harrell Jr, with contributions from Charles Dupont and many others.
    (2020). Hmisc: Harrell Miscellaneous. R package version 4.4-1.
    https://CRAN.R-project.org/package=Hmisc
+
+3. H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+4. Hadley Wickham (2011). The Split-Apply-Combine Strategy for Data Analysis. Journal of
+   Statistical Software, 40(1), 1-29. URL http://www.jstatsoft.org/v40/i01/.
    
-   Kirill Müller and Hadley Wickham (2020). tibble: Simple Data Frames. R package version 3.0.3.
-  https://CRAN.R-project.org/package=tibble
-  
-  Hadley Wickham (2020). tidyr: Tidy Messy Data. R package version 1.1.2.
-  https://CRAN.R-project.org/package=tidyr
-  
-  H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+5. Hadley Wickham (2020). tidyr: Tidy Messy Data. R package version 1.1.2.
+   https://CRAN.R-project.org/package=tidyr
+   
+6. Hadley Wickham and Dana Seidel (2020). scales: Scale Functions for Visualization. R package 
+   version 1.1.1. https://CRAN.R-project.org/package=scales
 
-  Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2020). dplyr: A Grammar of Data
-  Manipulation. R package version 1.0.2. https://CRAN.R-project.org/package=dplyr
-  
-  Hadley Wickham (2011). The Split-Apply-Combine Strategy for Data Analysis. Journal of Statistical
-  Software, 40(1), 1-29. URL http://www.jstatsoft.org/v40/i01/.
-  
-  Matt Dowle and Arun Srinivasan (2020). data.table: Extension of `data.frame`. R package version
-  1.13.0. https://CRAN.R-project.org/package=data.table
-  
-  Hadley Wickham and Dana Seidel (2020). scales: Scale Functions for Visualization. R package version
-  1.1.1. https://CRAN.R-project.org/package=scales
- 
-  Simon Urbanek (2013). png: Read and write PNG images. R package version 0.1-7.
-  https://CRAN.R-project.org/package=png
-  
-  Yihui Xie (2020). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package
-  version 1.30.
+7. Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2020). dplyr: A Grammar of 
+   Data Manipulation. R package version 1.0.2. https://CRAN.R-project.org/package=dplyr
 
-  Yihui Xie (2015) Dynamic Documents with R and knitr. 2nd edition. Chapman and Hall/CRC. ISBN
-  978-1498716963
+8. Kirill Müller and Hadley Wickham (2020). tibble: Simple Data Frames. R package version 3.0.3. 
+   https://CRAN.R-project.org/package=tibble
+   
+9. Matt Dowle and Arun Srinivasan (2020). data.table: Extension of `data.frame`. 
+   R package version 1.13.0. https://CRAN.R-project.org/package=data.table
 
-  Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria Stodden,
-  Friedrich Leisch and Roger D. Peng, editors, Implementing Reproducible Computational Research.
-  Chapman and Hall/CRC. ISBN 978-1466561595
+10. R Core Team (2020). R: A language and environment for statistical computing. R Foundation for
+    Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
 
+11. Simon Urbanek (2013). png: Read and write PNG images. R package version 0.1-7. 
+    https://CRAN.R-project.org/package=png
+    
+12. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 
+    1686, https://doi.org/10.21105/joss.01686
+
+13. Wu, C., &amp; Thompson, M. E. (2020). Chapter 2.5.1. In Sampling Theory and Practice (p. 27). 
+    Cham: Springer International Publishing.
+
+14. Yihui Xie (2014) knitr: A Comprehensive Tool for Reproducible Research in R. In Victoria   
+    Stodden, Friedrich Leisch and Roger D. Peng, editors, Implementing Reproducible Computational     Research. Chapman and Hall/CRC. ISBN 978-1466561595
+    
+15. Yihui Xie (2015) Dynamic Documents with R and knitr. 2nd edition. Chapman and Hall/CRC. ISBN
+    978-1498716963
+    
+16. Yihui Xie (2020). knitr: A General-Purpose Package for Dynamic Report Generation in R. R 
+    package version 1.30. 
